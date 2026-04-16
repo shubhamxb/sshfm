@@ -473,6 +473,7 @@ function saveRecent(path) {
 }
 
 function navigateTo(path) {
+  analyzerOpen.value = false;
   history.value = history.value.slice(0, historyIdx.value + 1);
   history.value.push(path);
   historyIdx.value = history.value.length - 1;

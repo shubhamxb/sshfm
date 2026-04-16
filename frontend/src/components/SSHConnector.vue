@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="connector__header">
       <div class="logo">
-        <span class="logo__icon">⚡</span>
-        <span class="logo__text">SSHFM</span>
+        <img src="/logo.png" alt="SSHFM Logo" width="60" height="60" style="border-radius: 12px; box-shadow: 0 4px 16px rgba(187, 154, 247, 0.4);" />
+        <span class="logo__text" style="font-size: 2.4rem; margin-left: 8px;">SSHFM</span>
       </div>
       <p class="connector__subtitle">SSH File Manager — sleek, fast, open source</p>
     </div>
@@ -244,7 +244,7 @@ import { connectSSH } from '../api';
 import { useVault } from '../composables/useVault';
 
 const emit = defineEmits(['connected']);
-const { encryptData, decryptData } = useVault();
+const { encryptData, decryptData, globalUnlockedVault, globalSavedProfiles } = useVault();
 
 const authMode    = ref('password');
 const showPassword = ref(false);
@@ -253,10 +253,10 @@ const error       = ref('');
 
 // Vault state
 const hasSavedVault = ref(false);
-const unlockedVault = ref(false);
+const unlockedVault = globalUnlockedVault;
 const saveToVault = ref(false);
 const vaultMasterPassword = ref('');
-const savedProfiles = ref([]);
+const savedProfiles = globalSavedProfiles;
 const addingNew = ref(false);
 
 const form = reactive({

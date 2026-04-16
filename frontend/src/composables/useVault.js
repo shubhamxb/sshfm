@@ -1,3 +1,8 @@
+import { ref } from 'vue';
+
+const globalUnlockedVault = ref(false);
+const globalSavedProfiles = ref([]);
+
 export function useVault() {
   
   // Hash a password into an AES-GCM cipher key
@@ -51,5 +56,5 @@ export function useVault() {
     }
   }
 
-  return { encryptData, decryptData };
+  return { encryptData, decryptData, globalUnlockedVault, globalSavedProfiles };
 }
