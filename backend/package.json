@@ -1,0 +1,24 @@
+{
+  "name": "sshfm-backend",
+  "version": "1.0.0",
+  "description": "SSH File Manager — Backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js --watch server.js --watch config.js --watch routes --watch utils"
+  },
+  "keywords": ["ssh", "file-manager", "sftp", "nodejs"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1",
+    "ssh2": "^1.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

@@ -1,0 +1,49 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: sshfm:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Health check
+        run: |
+          docker run -d --name sshfm-test -p 6969:6969 \
+            -e NODE_ENV=test \
+            sshfm:test
+          sleep 8
+          curl -f http://localhost:6969/api/health || (docker logs sshfm-test && exit 1)
+          docker stop sshfm-test
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend

@@ -1,0 +1,18 @@
+services:
+  sshfm:
+    build: .
+    container_name: sshfm
+    ports:
+      - "6969:6969"
+    env_file:
+      - backend/.env
+    environment:
+      - NODE_ENV=production
+      - SERVER_PORT=6969
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:6969/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
