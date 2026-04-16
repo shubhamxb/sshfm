@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const config = {
   server: {
-    port: parseInt(process.env.PORT || process.env.SERVER_PORT || '6969', 10),
+    port: parseInt(process.env.PORT || process.env.SERVER_PORT || (process.env.NODE_ENV === 'production' ? '6969' : '6970'), 10),
     env: process.env.NODE_ENV || 'development',
   },
   ssh: {
