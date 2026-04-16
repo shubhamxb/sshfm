@@ -1,39 +1,34 @@
-<div align="center">
-  <img src="./assets/logo.png" alt="SSHFM Logo" width="160" height="160" style="border-radius: 20px; box-shadow: 0 8px 32px rgba(187, 154, 247, 0.4);" />
-</div>
+# sshfm — Browser-based SSH File Manager
 
-# SSH File Manager – Browser Edition
+**Making remote Linux server management simple, modern, and approachable.**
 
-Manage files on any remote Linux server from your browser. No setup beyond SSH credentials.
+A sleek web-based SSH file manager. Connect to any remote server directly from your browser — no heavy desktop clients needed. Inspired by WinSCP but rebuilt for 2026 with a focus on ease and reliability.
 
-### Why
-Terminal file management is fine until it isn't. This just makes it faster.
+### Why This Project Exists
+As an **Agentic AI Engineer** (Ex-Persistent Systems) and open-source contributor, I build human-first utilities that remove real friction from complex infrastructure tasks. Terminal anxiety and manual file operations slow developers down — this tool aims to make Linux server management intuitive and fast.
+
+### Current Status
+- Core features implemented (SSH connect, file operations, quick commands)
+- Docker support ready
+- UI actively being polished (v1 feedback welcome)
 
 ### Live Demo
-[→ Open live demo](--comingsoon--)
+→ [Live Demo](https://sshfm-xxxx.onrender.com) *(will be updated after successful deployment)*
 
 ### Features
-- SSH connection straight from the browser
-- Browse, upload, download, rename, delete
-- Built-in quick commands
-- Runs in Docker or natively
+- Secure SSH connection from browser
+- Browse, upload, download, rename, delete files
+- Built-in quick commands and utilities
+- Containerized deployment with Docker
 
-### Quick Start
+### Tech Stack
+- **Frontend**: Vue.js
+- **Backend**: Node.js
+- **Containerization**: Docker + Docker Compose
+- Designed with production practices and future agentic extensions in mind
 
-**Docker**
+### Quick Start (Local)
+
+**Using Docker** (recommended)
 ```bash
 docker compose up --build
-```
-
-**Scripts**
-```bash
-# Linux / macOS
-./scripts/start-dev.sh
-
-# Windows
-./scripts/start-dev.bat
-```
-
-Open http://localhost:6969
-
-Found a bug or have an idea? Open an issue.
