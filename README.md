@@ -12,6 +12,8 @@ at a server's files the way you'd look at your own.
 
 <p align="center"><img src="docs/connect.png" alt="sshfm's connect screen: the encrypted vault, password or key" width="720"></p>
 
+![sshfm's space analyzer on the demo server: a treemap of folders and the largest files](docs/demo.png)
+
 ## What it does
 
 - **Files:** browse, upload, download, rename, make folders, with a transfer queue for the big ones
