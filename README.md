@@ -5,6 +5,8 @@
 **A file manager for your servers, in the browser.** Connect over SSH, then browse, move, upload and download files,
 and see what's eating the disk. No desktop client, nothing to install on the server.
 
+**[Try the live demo →](https://shubhamxb.github.io/sshfm/)** a pretend server in your browser tab; nothing to sign up for, nothing leaves the page.
+
 I built it because SFTP clients are either heavy desktop apps or a terminal, and most of the time you just want to look
 at a server's files the way you'd look at your own.
 
@@ -22,7 +24,7 @@ at a server's files the way you'd look at your own.
 
 ## Try it without a server
 
-`npm run build:demo --prefix frontend` builds a demo: the same app, answered by a pretend server that lives in the
+The [live demo](https://shubhamxb.github.io/sshfm/) is this. `npm run build:demo --prefix frontend` builds a demo: the same app, answered by a pretend server that lives in the
 browser tab (`frontend/src/demo/api.js`). Browse, upload, rename, sudo into `/root`, scan the disk; nothing opens a
 connection, and a reload resets it. The output in `frontend/dist-demo/` is static and works from any path.
 
