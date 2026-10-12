@@ -10,9 +10,7 @@ and see what's eating the disk. No desktop client, nothing to install on the ser
 I built it because SFTP clients are either heavy desktop apps or a terminal, and most of the time you just want to look
 at a server's files the way you'd look at your own.
 
-<p align="center"><img src="docs/connect.png" alt="sshfm's connect screen: the encrypted vault, password or key" width="720"></p>
-
-![sshfm's space analyzer on the demo server: a treemap of folders and the largest files](docs/demo.png)
+<p align="center"><img src="docs/demo.png" alt="sshfm's space analyzer on the demo server: a treemap of folders and the largest files" width="720"></p>
 
 ## What it does
 
@@ -48,6 +46,8 @@ npm run dev                             # backend + frontend together
 
 The container has a health check (`/api/health`). Put it behind your own reverse proxy and auth if it faces the
 internet: whoever can reach sshfm can try to open SSH sessions from it.
+
+<p align="center"><img src="docs/connect.png" alt="sshfm's connect screen: the encrypted vault, password or key" width="560"></p>
 
 ## How it's built
 
