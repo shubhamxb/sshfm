@@ -3,9 +3,9 @@
     <div v-for="t in transfers" :key="t.id" class="transfer-item">
       <div class="transfer-name">
         <span>
-          <span v-if="t.type === 'uploading'">⬆ </span>
-          <span v-else-if="t.type === 'copy'">📄 </span>
-          <span v-else-if="t.type === 'cut'">✂️ </span>
+          <span v-if="t.type === 'uploading'"><Icon name="upload" /> </span>
+          <span v-else-if="t.type === 'copy'"><Icon name="file" /> </span>
+          <span v-else-if="t.type === 'cut'"><Icon name="cut" /> </span>
           {{ t.name }}
         </span>
         <span>{{ t.progress }}%</span>
@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 const props = defineProps({
   transfers: { type: Array, required: true }
 });

@@ -3,11 +3,11 @@
     <!-- Quick Access -->
     <div class="sidebar-section">
       <div class="sidebar-section-title" v-if="!collapsed">Quick Access</div>
-      <div class="sidebar-item" @click="$emit('navigate', '~')" title="Home (~)"><span class="icon">🏠</span><span v-if="!collapsed">Home</span></div>
-      <div class="sidebar-item" @click="$emit('navigate', '/')" title="Root (/)"><span class="icon">🖥️</span><span v-if="!collapsed">Root</span></div>
-      <div class="sidebar-item" @click="$emit('navigate', '/etc')" title="/etc"><span class="icon">⚙️</span><span v-if="!collapsed">/etc</span></div>
-      <div class="sidebar-item" @click="$emit('navigate', '/var/log')" title="/var/log"><span class="icon">📋</span><span v-if="!collapsed">/var/log</span></div>
-      <div class="sidebar-item" @click="$emit('navigate', '/tmp')" title="/tmp"><span class="icon">🗑️</span><span v-if="!collapsed">/tmp</span></div>
+      <div class="sidebar-item" @click="$emit('navigate', '~')" title="Home (~)"><span class="icon"><Icon name="home" /></span><span v-if="!collapsed">Home</span></div>
+      <div class="sidebar-item" @click="$emit('navigate', '/')" title="Root (/)"><span class="icon"><Icon name="server" /></span><span v-if="!collapsed">Root</span></div>
+      <div class="sidebar-item" @click="$emit('navigate', '/etc')" title="/etc"><span class="icon"><Icon name="settings" /></span><span v-if="!collapsed">/etc</span></div>
+      <div class="sidebar-item" @click="$emit('navigate', '/var/log')" title="/var/log"><span class="icon"><Icon name="log" /></span><span v-if="!collapsed">/var/log</span></div>
+      <div class="sidebar-item" @click="$emit('navigate', '/tmp')" title="/tmp"><span class="icon"><Icon name="clock" /></span><span v-if="!collapsed">/tmp</span></div>
     </div>
     
     <div class="sidebar-divider"></div>
@@ -16,12 +16,12 @@
     <div class="sidebar-section">
       <div class="sidebar-section-title" v-if="!collapsed">Bookmarks</div>
       <div v-for="bm in bookmarks" :key="bm" class="sidebar-item bookmark-item" @click="$emit('bookmark-click', bm)" :title="bm">
-        <span class="icon">⭐</span>
+        <span class="icon"><Icon name="star" /></span>
         <span v-if="!collapsed" class="name">{{ bm }}</span>
         <span v-if="!collapsed" class="remove-btn" @click.stop="removeBookmark(bm)">×</span>
       </div>
       <div class="sidebar-item" v-if="!collapsed" @click="addBookmark" title="Add Current Path">
-        <span class="icon">+</span><span>Add current</span>
+        <span class="icon"><Icon name="plus" /></span><span>Add current</span>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
     <div class="sidebar-section" v-if="recentPaths.length > 0">
       <div class="sidebar-section-title" v-if="!collapsed">Recent Paths</div>
       <div class="sidebar-item" v-for="rp in recentPaths" :key="rp" @click="$emit('navigate', rp)" :title="rp">
-        <span class="icon">🕐</span><span v-if="!collapsed">{{ rp }}</span>
+        <span class="icon"><Icon name="clock" /></span><span v-if="!collapsed">{{ rp }}</span>
       </div>
     </div>
 
@@ -61,12 +61,13 @@
          <button class="theme-btn tb-lofi" @click="setTheme('lofi')" title="Lofi Haven"></button>
          <button class="theme-btn tb-crayon" @click="setTheme('crayon')" title="Crayon Cartel"></button>
       </div>
-      <div v-else class="sidebar-item" title="Themes"><span class="icon">🎨</span></div>
+      <div v-else class="sidebar-item" title="Themes"><span class="icon"><Icon name="palette" /></span></div>
     </div>
   </div>
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref, computed, onMounted, watch } from 'vue';
 import { getDiskUsage } from '../api';
 

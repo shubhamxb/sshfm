@@ -222,8 +222,13 @@ router.get('/files', async (req, res) => {
     const { conn, mode, username } = sessionObj;
     
     let actualPath = dirPath;
-    if (actualPath === '~' || actualPath === '~/') {
-      actualPath = username === 'root' ? '/root' : `/home/${username}`;
+    if (actualPath === '~' || actualPath === '~/' || actualPath.startsWith('~/')) {
+      // ask the server where home really is (macOS: /Users/…, custom homes, root): /home/<user> was a guess
+      if (!sessionObj.home) {
+        try { sessionObj.home = (await execCommand(conn, 'printf %s "$HOME"')).trim(); } catch { /* fall back below */ }
+        if (!sessionObj.home) sessionObj.home = username === 'root' ? '/root' : `/home/${username}`;
+      }
+      actualPath = sessionObj.home + actualPath.slice(1).replace(/^\/$/, '');
     }
     
     const files = await listFiles(conn, actualPath);
@@ -412,7 +417,10 @@ router.get('/disk', async (req, res) => {
     const total = parseInt(parts[1], 10) * 1024;
     const used  = parseInt(parts[2], 10) * 1024;
     const free  = parseInt(parts[3], 10) * 1024;
-    const pct   = Math.round((used / total) * 100);
+    // df's own capacity column is used / (used + available): it leaves out root-reserved blocks (linux) and space other
+    // apfs volumes share (macos). used / total understates it (it read 5% where df and the header said 27%)
+    const dfPct = parseInt(String(parts[4] || '').replace('%', ''), 10);
+    const pct   = Number.isFinite(dfPct) ? dfPct : Math.round((used / (used + free)) * 100);
     res.json({ success: true, total, used, free, pct });
   } catch (err) { sendError(res, err); }
 });

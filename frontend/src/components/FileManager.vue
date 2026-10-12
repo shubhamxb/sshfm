@@ -3,8 +3,8 @@
     <!-- ═══ TOP BAR ════════════════════════════════════════════════════════════ -->
     <header class="topbar">
       <div class="topbar-left">
-        <button class="sidebar-toggle btn-icon" @click="sidebarOpen = !sidebarOpen">☰</button>
-        <span class="logo-mini">⚡ SSHFM</span>
+        <button class="sidebar-toggle btn-icon" @click="sidebarOpen = !sidebarOpen"><Icon name="menu" /></button>
+        <span class="logo-mini">sshfm</span>
       </div>
 
       <!-- HUD: Sudo Badge · Connection · Folder Stats · Disk+Mounts · Scan Space · Activity Log · Clipboard -->
@@ -42,8 +42,8 @@
 
         <!-- Toolbar: Back/Fwd · Breadcrumb · Search · New · Upload · Refresh · Info -->
         <div class="toolbar">
-          <button class="btn-icon" @click="goBack"    :disabled="historyIdx <= 0">←</button>
-          <button class="btn-icon" @click="goForward" :disabled="historyIdx >= history.length - 1">→</button>
+          <button class="btn-icon" @click="goBack"    :disabled="historyIdx <= 0"><Icon name="back" /></button>
+          <button class="btn-icon" @click="goForward" :disabled="historyIdx >= history.length - 1"><Icon name="forward" /></button>
 
           <div class="breadcrumb">
             <button class="crumb" @click="navigateTo('/')">~</button>
@@ -63,18 +63,18 @@
               style="margin-bottom:0; width:160px; padding:5px 10px; font-size:0.8rem;"
               @keyup.escape="searchQuery=''"
             />
-            <button class="btn-icon" @click="doRemoteSearch" title="Remote search (find)">🔍</button>
+            <button class="btn-icon" @click="doRemoteSearch" title="Remote search (find)"><Icon name="search" /></button>
           </div>
 
           <button class="fm-toolbar-btn" @click="showMkdirModal = true">
-            <span class="fm-icon">📁</span> New Folder
+            <span class="fm-icon"><Icon name="folder" /></span> New Folder
           </button>
           <label class="fm-toolbar-btn fm-btn-accent" style="cursor:pointer;">
-            <span class="fm-icon">⬆</span> Upload
+            <span class="fm-icon"><Icon name="upload" /></span> Upload
             <input type="file" multiple hidden @change="handleUpload" ref="fileInput" />
           </label>
           <button class="fm-toolbar-btn" @click="loadFiles" title="Refresh">
-            <span class="fm-icon" :class="loading && 'spin'">↻</span>
+            <span class="fm-icon" :class="loading && 'spin'"><Icon name="refresh" /></span>
           </button>
           <button class="fm-toolbar-btn" :class="{ 'active': infoPanelOpen }" @click="infoPanelOpen = !infoPanelOpen" title="File Info Panel">
             <span class="fm-icon">ℹ</span>
@@ -113,13 +113,13 @@
               <!-- Error Banner -->
               <div v-if="error" class="inline-error">
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <span>⚠️</span>
+                  <span><Icon name="warn" /></span>
                   <span>{{ error }}</span>
                   <span v-if="isPermissionError && sessionMode !== 'sudo'" style="font-weight:600; color:var(--warning);">
-                    Try switching to Sudo mode (🔒 in top bar).
+                    Try switching to Sudo mode (<Icon name="lock" /> in top bar).
                   </span>
                 </div>
-                <button @click="error=''; isPermissionError=false" class="btn-icon">✕</button>
+                <button @click="error=''; isPermissionError=false" class="btn-icon"><Icon name="x" /></button>
               </div>
 
               <!-- Loading Spinner -->
@@ -130,7 +130,7 @@
 
               <!-- Empty State -->
               <div v-else-if="!loading && filteredFiles.length === 0" class="empty-state">
-                <span style="font-size:3rem;">📂</span>
+                <span style="font-size:3rem;"><Icon name="folder-open" /></span>
                 <p>This directory is empty or no files match your filter</p>
               </div>
 
@@ -175,7 +175,7 @@
                     >
                       <td><input type="checkbox" v-model="selectedFiles" :value="file" @click.stop /></td>
                       <td class="name-cell">
-                        <span class="file-icon">{{ fileIcon(file) }}</span>
+                        <span class="file-icon" :class="'ft-' + fileTone(file)"><Icon :name="fileIcon(file)" /></span>
                         <span
                           class="file-name"
                           :class="{ clickable: file.isDirectory }"
@@ -198,7 +198,7 @@
                   <span v-if="selectedFiles.length" style="color:var(--accent);">· {{ selectedFiles.length }} selected</span>
                   <span v-if="folderBytes">· {{ formatBytes(folderBytes) }}</span>
                   <span v-if="clipboard.mode" style="color:var(--accent);">
-                    · 📋 {{ clipboard.files.length }} {{ clipboard.mode === 'cut' ? 'cut' : 'copied' }}
+                    · <Icon name="list" /> {{ clipboard.files.length }} {{ clipboard.mode === 'cut' ? 'cut' : 'copied' }}
                   </span>
                 </span>
               </footer>
@@ -241,7 +241,7 @@
     <!-- Drag-to-Upload Overlay -->
     <div class="drop-overlay" v-show="isDragging" @dragover.prevent @dragleave="isDragging = false" @drop.prevent="handleDrop">
       <div class="drop-inner">
-        <div class="drop-icon">☁️</div>
+        <div class="drop-icon"><Icon name="cloud" /></div>
         <p>Drop files to upload to <span class="mono">{{ currentPath }}</span></p>
       </div>
     </div>
@@ -292,7 +292,7 @@
     <!-- Toast Notification -->
     <transition name="fadeslide">
       <div v-if="toast.show" :class="['toast', `toast-${toast.type}`]">
-        <span>{{ toast.type === 'success' ? '✓' : toast.type === 'error' ? '✗' : 'ℹ' }}</span>
+        <span><Icon :name="toast.type === 'success' ? 'check' : toast.type === 'error' ? 'x' : 'info'" /></span>
         {{ toast.message }}
       </div>
     </transition>
@@ -301,6 +301,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import Sidebar       from './Sidebar.vue';
 import HudBar        from './HudBar.vue';
@@ -323,7 +324,7 @@ const { clipboard, copy, cut, clear: clearClipboard, isCut } = useClipboard();
 const { operations, addOp, finishOp } = useFileOps();
 
 // ── UI State ──────────────────────────────────────────────────────────────────
-const sidebarOpen    = ref(true);
+const sidebarOpen    = ref(typeof window === 'undefined' || window.innerWidth > 720);   // phones start with the files, not the sidebar
 const selectedFiles  = ref([]);
 const searchQuery    = ref('');
 const searchRef      = ref(null);
@@ -335,7 +336,7 @@ const analyzerOpen   = ref(false);
 
 // ── File System State ─────────────────────────────────────────────────────────
 const files           = ref([]);
-const currentPath     = ref('/');
+const currentPath     = ref('~');   // open where the user lands over ssh; the server resolves it to a real path
 const loading         = ref(false);
 const error           = ref('');
 const isPermissionError = ref(false);
@@ -412,20 +413,24 @@ function pathUpTo(index) {
 }
 
 function fileIcon(file) {
-  if (file.isDirectory) return '📁';
-  if (file.isSymlink)   return '🔗';
-  const ext = file.name.split('.').pop()?.toLowerCase();
-  const map = {
-    js: '📜', ts: '📘', vue: '💚', json: '📋',
-    md: '📝', txt: '📄', sh: '⚙️',  py: '🐍',
-    go: '🐹', rs: '🦀', java: '☕', rb: '💎',
-    jpg: '🖼', jpeg: '🖼', png: '🖼', gif: '🖼', svg: '🎨',
-    mp4: '🎬', mp3: '🎵', pdf: '📑',
-    zip: '📦', gz: '📦', tar: '📦',
-    html: '🌐', css: '🎨', sql: '🗄️',
-    lock: '🔒', env: '🔐',
-  };
-  return map[ext] || '📄';
+  if (file.isDirectory) return 'folder';
+  if (file.isSymlink)   return 'link';
+  return FILE_TYPES[file.name.split('.').pop()?.toLowerCase()]?.[0] || 'file';
+}
+// file types: an icon and a tone, so a folder can be scanned by colour without a wall of emoji
+const FILE_TYPES = {
+  js: ['code', 'code'], ts: ['code', 'code'], vue: ['code', 'code'], json: ['code', 'code'], py: ['code', 'code'],
+  go: ['code', 'code'], rs: ['code', 'code'], java: ['code', 'code'], rb: ['code', 'code'], sh: ['code', 'code'],
+  html: ['globe', 'code'], css: ['code', 'code'], sql: ['database', 'code'],
+  md: ['text', 'doc'], txt: ['text', 'doc'], pdf: ['text', 'doc'],
+  jpg: ['image', 'media'], jpeg: ['image', 'media'], png: ['image', 'media'], gif: ['image', 'media'], svg: ['image', 'media'],
+  mp4: ['video', 'media'], mp3: ['audio', 'media'],
+  zip: ['archive', 'archive'], gz: ['archive', 'archive'], tar: ['archive', 'archive'],
+  lock: ['lock', 'secret'], env: ['secret', 'secret'], pem: ['secret', 'secret'], key: ['secret', 'secret'],
+};
+function fileTone(file) {
+  if (file.isDirectory) return 'dir';
+  return FILE_TYPES[file.name.split('.').pop()?.toLowerCase()]?.[1] || 'plain';
 }
 
 function formatBytes(b) {
@@ -447,6 +452,7 @@ async function loadFiles() {
   loading.value = true; error.value = ''; isPermissionError.value = false;
   try {
     const res = await listFiles(props.session.sessionId, currentPath.value);
+    if (res.path && res.path !== currentPath.value && currentPath.value.startsWith('~')) currentPath.value = res.path;  // show where ~ really is
     files.value = res.files;
     selectedFiles.value = [];
   } catch (err) {

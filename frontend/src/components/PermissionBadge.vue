@@ -6,7 +6,7 @@
       @click="showModal = true"
       title="Access Mode"
     >
-      <span class="pill-icon">{{ mode === 'sudo' ? '⚡' : '🔒' }}</span>
+      <span class="pill-icon"><Icon :name="mode === 'sudo' ? 'zap' : 'lock'" /></span>
       <span class="pill-label">{{ mode === 'sudo' ? 'Sudo' : 'Normal' }}</span>
     </button>
 
@@ -28,7 +28,7 @@
               <input type="radio" :checked="mode === 'normal'" @change="switchMode('normal')" name="mode">
             </div>
             <div class="mode-option__info">
-              <div class="mode-option__title">🔒 Normal Mode</div>
+              <div class="mode-option__title"><Icon name="lock" /> Normal Mode</div>
               <div class="mode-option__desc text-muted">Standard SFTP access. Use this for your own files.</div>
             </div>
           </label>
@@ -41,14 +41,14 @@
               <input type="radio" :checked="mode === 'sudo'" @change="switchMode('sudo')" name="mode">
             </div>
             <div class="mode-option__info">
-              <div class="mode-option__title">⚡ Sudo Mode</div>
+              <div class="mode-option__title"><Icon name="zap" /> Sudo Mode</div>
               <div class="mode-option__desc text-muted">Executes commands as root. Modifying protected files won't be blocked.</div>
             </div>
           </label>
         </div>
 
         <div v-if="error" class="alert alert--error" style="margin-top: 16px;">
-          <span>⚠️</span>
+          <span><Icon name="warn" /></span>
           <span>{{ error }}</span>
         </div>
 
@@ -61,6 +61,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref } from 'vue';
 import { setSessionMode } from '../api';
 

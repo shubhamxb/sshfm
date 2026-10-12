@@ -1,8 +1,5 @@
 <template>
   <div id="app-root">
-    <!-- Particle background -->
-    <div class="bg-glow bg-glow--1"></div>
-    <div class="bg-glow bg-glow--2"></div>
 
     <transition name="page" mode="out-in">
       <!-- Connected: show file manager -->
@@ -49,33 +46,7 @@ async function handleDisconnect() {
 #app-root {
   min-height: 100vh;
   position: relative;
-  overflow: visible;
-}
-
-/* Ambient glow backgrounds */
-.bg-glow {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.07;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.bg-glow--1 {
-  width: 600px;
-  height: 600px;
-  background: #6c8ef5;
-  top: -200px;
-  left: -200px;
-}
-
-.bg-glow--2 {
-  width: 500px;
-  height: 500px;
-  background: #a78bfa;
-  bottom: -150px;
-  right: -150px;
+  overflow-x: hidden;
 }
 
 /* Page transitions */

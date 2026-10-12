@@ -7,18 +7,18 @@
     />
     
     <div class="hud-pill" title="Connection">
-      <span class="pill-icon">🟢</span>
+      <span class="pill-icon"><span class="live-dot" aria-hidden="true"></span></span>
       <span class="pill-label">{{ session.username }}@{{ session.host }}</span>
     </div>
 
     <div class="hud-pill" title="Folder Stats">
-      <span class="pill-icon">📁</span>
+      <span class="pill-icon"><Icon name="folder" /></span>
       <span class="pill-label">{{ fileCount }} items · {{ formatBytes(folderBytes) }}</span>
     </div>
 
     <!-- Appends clickable if interactive -->
     <div class="hud-pill dropdown-wrap clickable" title="Disk Mounts" @mouseenter="showMounts = true" @mouseleave="showMounts = false">
-      <span class="pill-icon">💾</span>
+      <span class="pill-icon"><Icon name="disk" /></span>
       <span v-if="diskInfo" class="pill-label">Disk: <strong>{{ diskInfo.pct }}%</strong> ({{ formatBytes(diskInfo.free) }} free)</span>
       <span v-else class="pill-label">Disk: ···</span>
 
@@ -44,13 +44,13 @@
 
     <!-- Space Sweeper Button -->
     <div class="hud-pill clickable" title="Storage Analyzer" @click="$emit('open-analyzer')" style="border-color: rgba(16, 185, 129, 0.4); color: #10b981;">
-      <span class="pill-icon" style="text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);">📊</span>
+      <span class="pill-icon" style="text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"><Icon name="chart" /></span>
       <span class="pill-label">Scan Space</span>
     </div>
 
     <div :class="['hud-pill', 'dropdown-wrap', 'clickable', operations.length > 0 ? 'hud-pill--busy' : '']" title="Activity Tracker" @mouseenter="handleAuditEnter" @mouseleave="showAudit = false">
       <span class="pill-icon" v-if="operations.length > 0"><span class="pulse-dot"></span></span>
-      <span class="pill-icon" v-else>⚡</span>
+      <span class="pill-icon" v-else><Icon name="zap" /></span>
       <span class="pill-label">{{ operations.length > 0 ? `${operations.length} running` : 'Activity Tracker' }}</span>
       
       <div class="dropdown-menu fade-in" v-if="showAudit" style="right:0; left:auto; min-width:350px; max-height:400px; overflow-y:auto">
@@ -68,13 +68,14 @@
     </div>
 
     <div v-if="clipboard.mode !== null" class="hud-pill hud-pill--clipboard" title="Clipboard">
-      <span class="pill-icon">📋</span>
+      <span class="pill-icon"><Icon name="list" /></span>
       <span class="pill-label">{{ clipboard.files.length }} file(s) {{ clipboard.mode === 'cut' ? 'cut' : 'copied' }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref, onMounted } from 'vue';
 import { getDiskMounts, getSessionLogs } from '../api';
 import PermissionBadge from './PermissionBadge.vue';

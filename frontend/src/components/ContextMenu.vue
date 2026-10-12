@@ -2,31 +2,31 @@
   <div v-if="visible" class="context-menu" :style="{ left: posX + 'px', top: posY + 'px' }" @click.stop>
     <template v-if="file">
       <div class="ctx-item" v-if="file.isDirectory" @click="emitAction('open')">
-        <span>📂</span> Open
+        <span><Icon name="folder-open" /></span> Open
       </div>
       <div class="ctx-item" v-else @click="emitAction('download')">
-        <span>⬇️</span> Download
+        <span><Icon name="download" /></span> Download
       </div>
       
       <div class="ctx-divider"></div>
       
       <div class="ctx-item" @click="emitAction('copy')">
-        <span>📄</span> Copy
+        <span><Icon name="file" /></span> Copy
       </div>
       <div class="ctx-item" @click="emitAction('cut')">
-        <span>✂️</span> Cut
+        <span><Icon name="cut" /></span> Cut
       </div>
     </template>
     
     <div class="ctx-item" v-if="canPaste" @click="emitAction('paste')">
-      <span>📋</span> Paste
+      <span><Icon name="list" /></span> Paste
     </div>
     
     <template v-if="file">
       <div class="ctx-divider"></div>
       
       <div class="ctx-item" @click="emitAction('rename')">
-        <span>✏️</span> Rename
+        <span><Icon name="edit" /></span> Rename
       </div>
       <div class="ctx-item" @click="emitAction('info')">
         <span>ℹ️</span> Get Info
@@ -35,13 +35,14 @@
       <div class="ctx-divider"></div>
       
       <div class="ctx-item ctx-item--danger" @click="emitAction('delete')">
-        <span>🗑️</span> Delete
+        <span><Icon name="trash" /></span> Delete
       </div>
     </template>
   </div>
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { computed, watch, ref, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({

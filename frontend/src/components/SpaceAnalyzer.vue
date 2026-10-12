@@ -4,13 +4,13 @@
     <!-- Header -->
     <header class="sa-header">
       <div>
-        <h2 class="sa-title">📊 Space Sweeper</h2>
+        <h2 class="sa-title"><Icon name="chart" /> Space Sweeper</h2>
         <p class="text-muted" style="margin-top: 4px; font-size: 0.85rem;">
           Analyzing
           <code class="mono" style="background:rgba(255,255,255,0.07); padding:2px 8px; border-radius:4px;">{{ currentPath }}</code>
         </p>
       </div>
-      <button class="btn-icon" @click="$emit('close')" title="Close Analyzer" style="font-size:1.3rem; padding:6px 10px;">✕</button>
+      <button class="btn-icon" @click="$emit('close')" title="Close Analyzer" style="font-size:1.3rem; padding:6px 10px;"><Icon name="x" /></button>
     </header>
 
     <!-- Loading -->
@@ -25,7 +25,7 @@
     <!-- Error -->
     <div v-else-if="error" class="sa-loading">
       <div style="background:var(--danger-dim); padding:20px 28px; border-radius:12px; border:1px solid rgba(248,113,113,0.3); color:var(--danger); text-align:center;">
-        <div style="font-size:2rem; margin-bottom:8px;">⚠️</div>
+        <div style="font-size:2rem; margin-bottom:8px;"><Icon name="warn" /></div>
         <strong>Scan failed</strong><br/>
         <span style="font-size:0.85rem; opacity:0.85;">{{ error }}</span>
       </div>
@@ -65,7 +65,7 @@
       <div class="sa-section" style="background:rgba(0,0,0,0.08);">
         <h3>Largest Files</h3>
         <p class="text-muted" style="font-size:0.75rem; margin-bottom:14px;">
-          ⚠️ Deleting removes them completely — no recovery.
+          <Icon name="warn" /> Deleting removes them completely — no recovery.
         </p>
         <div class="hog-list">
           <div v-if="!files.length" class="text-muted" style="padding:20px; font-size:0.85rem;">No large files found recursively.</div>
@@ -85,7 +85,7 @@
               {{ item.path }}
             </div>
             <div class="hog-actions">
-              <button class="btn-icon" title="Delete this file" @click="confirmDelete(item)" style="color:var(--danger);">🗑️</button>
+              <button class="btn-icon" title="Delete this file" @click="confirmDelete(item)" style="color:var(--danger);"><Icon name="trash" /></button>
             </div>
           </div>
         </div>
@@ -96,6 +96,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { analyzeDisk } from '../api';
 

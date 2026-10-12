@@ -16,14 +16,15 @@
     </table>
 
     <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 8px;">
-      <button class="btn-secondary" v-if="!file.isDirectory" @click="handleDownload">⬇ Download</button>
-      <button class="btn-secondary" @click="$emit('rename', file)">✏️ Rename</button>
-      <button class="btn-secondary btn-danger" @click="$emit('delete', file)">🗑️ Delete</button>
+      <button class="btn-secondary" v-if="!file.isDirectory" @click="handleDownload"><Icon name="download" /> Download</button>
+      <button class="btn-secondary" @click="$emit('rename', file)"><Icon name="edit" /> Rename</button>
+      <button class="btn-secondary btn-danger" @click="$emit('delete', file)"><Icon name="trash" /> Delete</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { computed } from 'vue';
 import { getDownloadUrl } from '../api';
 
@@ -51,9 +52,9 @@ function formatDate(iso) {
 }
 
 function fileIcon(f) {
-  if (f.isDirectory) return '📁';
-  if (f.isSymlink) return '🔗';
-  return '📄';
+  if (f.isDirectory) return '';
+  if (f.isSymlink) return '';
+  return '';
 }
 
 function handleDownload() {

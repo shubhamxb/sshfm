@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedFiles.length > 0" class="selection-bar">
-    <div class="selection-count">✓ {{ selectedFiles.length }} file(s) selected</div>
+    <div class="selection-count"><Icon name="check" /> {{ selectedFiles.length }} file(s) selected</div>
     <button class="btn-secondary btn-sm" @click="$emit('copy')">Copy</button>
     <button class="btn-secondary btn-sm" @click="$emit('cut')">Cut</button>
     <button class="btn-secondary btn-sm" :disabled="clipboard.mode === null" @click="$emit('paste')">Paste</button>
@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 const props = defineProps({
   selectedFiles: { type: Array, required: true },
   clipboard: { type: Object, required: true },

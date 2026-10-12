@@ -8,6 +8,8 @@ and see what's eating the disk. No desktop client, nothing to install on the ser
 I built it because SFTP clients are either heavy desktop apps or a terminal, and most of the time you just want to look
 at a server's files the way you'd look at your own.
 
+<p align="center"><img src="docs/connect.png" alt="sshfm's connect screen: the encrypted vault, password or key" width="720"></p>
+
 ## What it does
 
 - **Files:** browse, upload, download, rename, make folders, with a transfer queue for the big ones
@@ -45,7 +47,8 @@ internet: whoever can reach sshfm can try to open SSH sessions from it.
 | backend | Express 5 + [`ssh2`](https://github.com/mscdex/ssh2) for SSH and SFTP |
 | deploy | one Docker image, `docker compose`, health-checked |
 
-More in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).
+More in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Icons: [Lucide](https://lucide.dev) (ISC). Type: Big Shoulders
+Display, Schibsted Grotesk and Martian Mono (SIL Open Font License).
 
 ## Status
 

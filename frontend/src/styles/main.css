@@ -1,48 +1,48 @@
 /* ─── SSHFM Global Styles ────────────────────────────────────────────────── */
 
 :root {
-  /* Colors */
-  --bg-base:      #0d0f14;
-  --bg-surface:   #13161e;
-  --bg-elevated:  #1a1e28;
-  --bg-highlight: #222736;
-  --bg-hover:     #252a38;
+  /* ink + brass: the same family as shubhamxb.github.io (so everything a client sees reads as one studio) */
+  --bg-base:      #0d1230;
+  --bg-surface:   #131a3e;
+  --bg-elevated:  #1a2250;
+  --bg-highlight: #222b5c;
+  --bg-hover:     #26306a;
 
-  --accent:       #6c8ef5;
-  --accent-glow:  rgba(108, 142, 245, 0.15);
-  --accent-hover: #849cf7;
-  --accent-dim:   rgba(108, 142, 245, 0.6);
+  --accent:       #c9a35e;   /* brass: actions, selection, the wordmark */
+  --accent-glow:  rgba(201, 163, 94, 0.16);
+  --accent-hover: #e8c98a;
+  --accent-dim:   rgba(201, 163, 94, 0.6);
+  --on-accent:    #0d1230;
 
-  --success:      #4ade80;
-  --success-dim:  rgba(74, 222, 128, 0.12);
-  --warning:      #fbbf24;
-  --warning-dim:  rgba(251, 191, 36, 0.12);
-  --danger:       #f87171;
-  --danger-dim:   rgba(248, 113, 113, 0.12);
+  --success:      #4fd1c5;   /* signal: connected, done, live */
+  --success-dim:  rgba(79, 209, 197, 0.12);
+  --warning:      #e0af68;
+  --warning-dim:  rgba(224, 175, 104, 0.12);
+  --danger:       #f7768e;
+  --danger-dim:   rgba(247, 118, 142, 0.12);
 
-  --text-primary:   #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted:     #4a5568;
-  --text-accent:    #6c8ef5;
+  --text-primary:   #e9e6de;
+  --text-secondary: #8a90b4;
+  --text-muted:     #565f89;
+  --text-accent:    #c9a35e;
 
-  --border:       rgba(255, 255, 255, 0.06);
-  --border-focus: rgba(108, 142, 245, 0.4);
+  --border:       #2a3263;
+  --border-focus: rgba(201, 163, 94, 0.55);
 
-  /* Spacing */
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  16px;
-  --radius-xl:  22px;
+  /* hardware, not pills */
+  --radius-sm:  3px;
+  --radius-md:  4px;
+  --radius-lg:  6px;
+  --radius-xl:  8px;
 
-  /* Shadow */
   --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md:  0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-lg:  0 8px 40px rgba(0, 0, 0, 0.6);
-  --shadow-accent: 0 0 20px rgba(108, 142, 245, 0.2);
+  --shadow-md:  0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg:  0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  --shadow-accent: 0 0 0 1px rgba(201, 163, 94, 0.35);
 
-  /* Fonts */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-sans: 'Schibsted Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Martian Mono', 'JetBrains Mono', monospace;
 }
 
 /* ─── Themes ─────────────────────────────────────────────────────────────── */
@@ -118,6 +118,12 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-base);
+  /* the instrument grid, faint: replaces the old glow blobs (which also ran past the window edge) */
+  background-image:
+    linear-gradient(rgba(42, 50, 99, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(42, 50, 99, 0.2) 1px, transparent 1px);
+  background-size: 32px 32px;
+  overflow-x: hidden;
   color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.6;
@@ -164,6 +170,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 input::placeholder { color: var(--text-muted); }
+input[type="checkbox"], input[type="radio"] { width: auto; padding: 0; accent-color: var(--accent); flex: none; }
 
 /* ─── Global Button Styles ───────────────────────────────────────────────── */
 
@@ -183,12 +190,12 @@ button {
 
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent, #fff);
+  font-weight: 600;
 }
 .btn-primary:hover:not(:disabled) {
   background: var(--accent-hover);
   box-shadow: var(--shadow-accent);
-  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -539,4 +546,54 @@ button:disabled {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+}
+
+/* ─── focus, everywhere ─────────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ─── file types: one icon set (Lucide), toned by kind ─────────────────── */
+.file-icon { display: inline-flex; align-items: center; color: var(--text-secondary); }
+.file-icon.ft-dir { color: var(--accent); }
+.file-icon.ft-code { color: var(--success); }
+.file-icon.ft-media { color: #e98bd0; }
+.file-icon.ft-archive { color: var(--warning); }
+.file-icon.ft-secret { color: var(--danger); }
+.file-icon.ft-doc { color: var(--text-primary); }
+.live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
+
+/* ─── the header wordmark, matching the connect screen ─────────────────── */
+.logo-mini { font-family: var(--font-display) !important; font-weight: 800 !important; font-size: 1.7rem !important;
+  text-transform: uppercase; letter-spacing: 0.01em; color: var(--accent) !important; background: none !important;
+  -webkit-text-fill-color: var(--accent) !important; line-height: 1; }
+
+/* ─── checkboxes: hardware switches, not white squares ─────────────────── */
+input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 3px; cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--bg-base); display: inline-grid; place-content: center;
+  transition: border-color .15s, background .15s; box-shadow: none;
+}
+input[type="checkbox"]:hover { border-color: var(--accent-dim); }
+input[type="checkbox"]:checked { background: var(--accent); border-color: var(--accent); }
+input[type="checkbox"]:checked::after { content: ""; width: 8px; height: 4px; border: 2px solid var(--on-accent); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+input[type="checkbox"]:focus { box-shadow: none; }
+
+/* ─── phones: the header pills wrap and the wordy ones shrink to icons, never past the edge ── */
+@media (max-width: 720px) {
+  .hud-pills { flex-wrap: wrap; row-gap: 6px; min-width: 0; }
+  .hud-pill .pill-label { max-width: 42vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+@media (max-width: 720px) {
+  .hud-pills { display: none; }                 /* the info pills live in the sidebar + status line on phones */
+  .toolbar, .fm-toolbar { flex-wrap: wrap; row-gap: 8px; }
+  .search-wrap { min-width: 0; flex: 1 1 140px; }
+  .search-wrap input { min-width: 0; }
+}
+@media (max-width: 720px) {
+  .file-table { width: 100%; table-layout: fixed; }
+  .file-table th:nth-child(4), .file-table td:nth-child(4),
+  .file-table th:nth-child(5), .file-table td:nth-child(5) { display: none; }   /* modified + permissions: in the info panel */
+  .file-table th:nth-child(1), .file-table td:nth-child(1) { width: 44px; }
+  .file-table th:nth-child(3), .file-table td:nth-child(3) { width: 84px; }
+  .file-table td:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }

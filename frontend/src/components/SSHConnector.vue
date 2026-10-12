@@ -3,10 +3,9 @@
     <!-- Header -->
     <div class="connector__header">
       <div class="logo">
-        <img src="/logo.png" alt="SSHFM Logo" width="60" height="60" style="border-radius: 12px; box-shadow: 0 4px 16px rgba(187, 154, 247, 0.4);" />
-        <span class="logo__text" style="font-size: 2.4rem; margin-left: 8px;">SSHFM</span>
+        <span class="wordmark">sshfm</span>
       </div>
-      <p class="connector__subtitle">SSH File Manager — sleek, fast, open source</p>
+      <p class="connector__subtitle">your servers' files, in the browser</p>
     </div>
 
     <!-- Form Card (Add New) -->
@@ -74,12 +73,12 @@
             type="button"
             :class="['toggle-btn', authMode === 'password' && 'active']"
             @click="authMode = 'password'"
-          >🔑 Password</button>
+          >Password</button>
           <button
             type="button"
             :class="['toggle-btn', authMode === 'key' && 'active']"
             @click="authMode = 'key'"
-          >🗝️ Private Key</button>
+          >Private key</button>
         </div>
 
         <!-- Password -->
@@ -97,7 +96,8 @@
               type="button"
               class="btn-icon show-pass"
               @click="showPassword = !showPassword"
-            >{{ showPassword ? '🙈' : '👁️' }}</button>
+            :aria-label="showPassword ? 'Hide password' : 'Show password'"
+            >{{ showPassword ? 'hide' : 'show' }}</button>
           </div>
         </div>
 
@@ -117,19 +117,16 @@
         <!-- Error -->
         <transition name="slide-fade">
           <div v-if="error" class="alert alert--error" style="margin-bottom: 8px">
-            <span>⚠️</span>
+            <span><Icon name="warn" /></span>
             <span>{{ error }}</span>
           </div>
         </transition>
 
         <!-- Vault Saving -->
-        <div class="form-group vault-wrap" style="background: rgba(16,185,129,0.05); padding: 12px; border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; margin-bottom: 8px;">
-          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;" class="text-primary">
+        <div class="form-group vault-wrap">
+          <label class="vault-check">
             <input type="checkbox" v-model="saveToVault" />
-            <span style="display:flex; align-items:center; gap:4px">
-              <span style="font-size: 1.1rem; color: var(--accent);">🔐</span> 
-              <strong>Securely encrypt locally</strong>
-            </span>
+            <span><strong>Save this connection, encrypted</strong><small>AES-GCM in your browser, unlocked by a password only you know</small></span>
           </label>
           <transition name="slide-fade">
             <div v-if="saveToVault" style="margin-top: 10px;">
@@ -165,7 +162,7 @@
     <!-- Vault Unlock Card -->
     <div class="card fade-in" v-else-if="hasSavedVault && !unlockedVault">
       <div style="text-align:center; margin-bottom: 24px;">
-        <div style="font-size: 3rem; margin-bottom: 8px;">🔐</div>
+        <div style="font-size: 3rem; margin-bottom: 8px;"><Icon name="lock-key" /></div>
         <h2 class="card__title" style="margin-bottom:4px">Unlock Connection Vault</h2>
         <p class="text-muted" style="font-size: 0.85rem">Enter your master password to decrypt</p>
       </div>
@@ -184,7 +181,7 @@
 
         <transition name="slide-fade">
           <div v-if="error" class="alert alert--error" style="justify-content:center">
-            <span>⚠️</span>
+            <span><Icon name="warn" /></span>
             <span>{{ error }}</span>
           </div>
         </transition>
@@ -204,17 +201,17 @@
     <div class="card fade-in" v-else-if="hasSavedVault && unlockedVault && !addingNew">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px">
         <h2 class="card__title" style="margin:0">Saved Servers</h2>
-        <div style="font-size: 1.5rem;">🔐</div>
+        <div style="font-size: 1.5rem;"><Icon name="lock-key" /></div>
       </div>
 
       <div class="profiles-list">
         <div v-for="(profile, idx) in savedProfiles" :key="idx" class="profile-card clickable" @click="connectToProfile(profile)">
-          <div class="profile-icon">🖥️</div>
+          <div class="profile-icon"><Icon name="monitor" /></div>
           <div class="profile-info">
             <div class="profile-alias">{{ profile.alias || profile.host }}</div>
             <div class="profile-sub mono">{{ profile.username }}@{{ profile.host }}:{{ profile.port || 22 }}</div>
           </div>
-          <div class="profile-connect">Connect <span>→</span></div>
+          <div class="profile-connect">Connect <span><Icon name="forward" /></span></div>
         </div>
         
         <button class="btn-secondary submit-btn" style="margin-top:16px; border-style:dashed" @click="addingNew = true">
@@ -224,7 +221,7 @@
       
       <transition name="slide-fade">
         <div v-if="error" class="alert alert--error" style="margin-top: 16px">
-          <span>⚠️</span><span>{{ error }}</span>
+          <span><Icon name="warn" /></span><span>{{ error }}</span>
         </div>
       </transition>
     </div>
@@ -239,6 +236,7 @@
 </template>
 
 <script setup>
+import Icon from './Icon.vue';
 import { ref, reactive, onMounted } from 'vue';
 import { connectSSH } from '../api';
 import { useVault } from '../composables/useVault';
@@ -398,6 +396,20 @@ onMounted(() => {
   filter: drop-shadow(0 0 10px rgba(108, 142, 245, 0.6));
 }
 
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 4.2rem;
+  line-height: 0.85;
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+.vault-wrap { border: 1px solid var(--border); border-left: 2px solid var(--success); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 8px; background: var(--bg-elevated); }
+.vault-check { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.86rem; color: var(--text-primary); }
+.vault-check input { margin-top: 3px; }
+.vault-check span { display: flex; flex-direction: column; gap: 2px; }
+.vault-check small { color: var(--text-secondary); font-size: 0.76rem; }
 .logo__text {
   font-size: 2.2rem;
   font-weight: 700;
