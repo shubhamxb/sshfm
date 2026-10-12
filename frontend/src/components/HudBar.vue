@@ -43,8 +43,8 @@
     </div>
 
     <!-- Space Sweeper Button -->
-    <div class="hud-pill clickable" title="Storage Analyzer" @click="$emit('open-analyzer')" style="border-color: rgba(16, 185, 129, 0.4); color: #10b981;">
-      <span class="pill-icon" style="text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"><Icon name="chart" /></span>
+    <div class="hud-pill clickable" title="Storage Analyzer" @click="$emit('open-analyzer')" style="border-color: var(--success-dim); color: var(--success);">
+      <span class="pill-icon"><Icon name="chart" /></span>
       <span class="pill-label">Scan Space</span>
     </div>
 

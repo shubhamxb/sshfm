@@ -8,6 +8,10 @@
       <p class="connector__subtitle">your servers' files, in the browser</p>
     </div>
 
+    <p v-if="DEMO" class="demo-note">
+      <strong>demo:</strong> a pretend server that lives in this tab. Press connect; nothing you do leaves your browser.
+    </p>
+
     <!-- Form Card (Add New) -->
     <div class="card fade-in" v-if="!hasSavedVault || (hasSavedVault && unlockedVault && addingNew)">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px">
@@ -257,12 +261,13 @@ const vaultMasterPassword = ref('');
 const savedProfiles = globalSavedProfiles;
 const addingNew = ref(false);
 
+const DEMO = __SSHFM_DEMO__;
 const form = reactive({
   alias: '',
-  host: '',
+  host: DEMO ? 'demo-box' : '',
   port: 22,
-  username: '',
-  password: '',
+  username: DEMO ? 'deploy' : '',
+  password: DEMO ? 'demo' : '',
   privateKey: '',
 });
 
@@ -424,6 +429,19 @@ onMounted(() => {
   color: var(--text-secondary);
   font-size: 0.9rem;
 }
+
+.demo-note {
+  max-width: 440px;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border: 1px dashed var(--accent);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.demo-note strong { color: var(--accent); font-weight: 600; }
 
 .card {
   background: var(--bg-surface);

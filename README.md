@@ -20,6 +20,12 @@ at a server's files the way you'd look at your own.
 - **Activity log:** every action in a session, listed as it happens
 - **Session at a glance:** host, user, mode and file permissions while you work
 
+## Try it without a server
+
+`npm run build:demo --prefix frontend` builds a demo: the same app, answered by a pretend server that lives in the
+browser tab (`frontend/src/demo/api.js`). Browse, upload, rename, sudo into `/root`, scan the disk; nothing opens a
+connection, and a reload resets it. The output in `frontend/dist-demo/` is static and works from any path.
+
 ## Run it
 
 **Docker** (recommended):
